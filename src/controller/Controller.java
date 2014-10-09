@@ -10,27 +10,67 @@ public class Controller {
 	private Database db;
 
 	public Controller() {
-
+		db = new Database();
 	}
 
 	public void handleContactEvent(ContactEvent ce) {
 		switch(ce.getContactEventType()) {
-		case ADD: System.out.println("handling add event: " + ce.getName() + " with id # " + ce.getContactID());
+		case ADD: addContact(ce);
+			break;
+		case DELETE: deleteContact(ce);
+			break;
 		}
 	}
 
 	public void handleSearchEvent(SearchEvent se) {
 		switch (se.getSearchType()) {
-		case NAME: // handle name search
-		case EMAIL: // handle email search
+		case NAME: nameSearch(se);
+			break;
+		case EMAIL: emailSearch(se);
+			break;
 		}
 	}
 
 	public void handleListEvent(ListEvent le) {
 		switch (le.getListEventType()) {
-		case WRITE: // handle write
-		case RESTORE: // handle restore
-		case PRINT: // handle print
+		case WRITE: writeList();
+			break;
+		case RESTORE: restoreList();
+			break;
+		case PRINT: printList();
+			break;
 		}
+	}
+	
+	// contact event handlers
+	private void addContact(ContactEvent ce) {
+		db.addEntry(ce.getName(), ce.getPhone(), ce.getEmail());
+	}
+	
+	private void deleteContact(ContactEvent ce) {
+		db.deleteEntryByID(ce.getContactID());
+	}
+	
+	// search event handlers
+	private void nameSearch(SearchEvent se) {
+		// TODO: search
+		Search nameSearch = new Search();
+	}
+	
+	private void emailSearch(SearchEvent se) {
+		Search emailSearch = new Search();
+	}
+	
+	// list event handlers
+	private void writeList() {
+		db.saveDatabaseToFile();
+	}
+	
+	private void restoreList() {
+		db.loadDatabaseFromFile();
+	}
+	
+	private void printList() {
+		System.out.println(db.toString());
 	}
 }

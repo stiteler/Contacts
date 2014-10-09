@@ -28,6 +28,9 @@ public class ContactEvent extends EventObject {
 	public ContactEventType getContactEventType() {
 		return contactEventType;
 	}
+	public void setContactID(int contactID) {
+		this.contactID = contactID;
+	}
 	public int getContactID() {
 		return contactID;
 	}
